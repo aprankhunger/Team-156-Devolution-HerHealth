@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - HerHealth</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='ProfilePage.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Poetsen+One&family=Poppins:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="main">
+        <div class="nav1">
+            <div class="logo">
+                <span class="logocolor">H</span>
+                <span class="seclogocolor">er</span>
+                <span class="logocolor">H</span>
+                <span class="seclogocolor">ealth</span>
+            </div>
+            <div class="nav-links">
+                <a href="{{ url_for('home') }}" class="nav-link">Home</a>
+                <a href="{{ url_for('form') }}" class="nav-link">New Health Profile</a>
+                <a href="{{ url_for('logout') }}" class="nav-link">Logout</a>
+            </div>
+        </div>
+
+        <div class="data">
+            <div class="username">
+                <div class="Hey">Hey</div>
+                <div class="User">{{ current_user.name }},</div>
+            </div>
+            <!-- ...existing code... -->
+        </div>
+
+        <div class="grid">
+            <div class="item1" onclick="showPCODReport()">PCOD Report</div>
+            <div class="item2" onclick="showPeriodTrack()">Period Track</div>
+            <div class="item3" onclick="showSettings()">Settings</div>
+            <div class="item4" id="displayArea">
+                <div id="pcodReport" class="section-content" style="display: none;">
+                    {% if profile %}
+                    <h3>Your PCOD Risk Assessment</h3>
+                    <div class="risk-details">
+                        <p><strong>Risk Level:</strong> {{ profile.pcod_risk }}</p>
+                        <p><strong>BMI:</strong> {{ "%.1f"|format(profile.weight / ((profile.height/100) ** 2)) }}</p>
+                        <p><strong>Symptoms:</strong> {{ profile.symptoms or 'None reported' }}</p>
+                        <p><strong>Activity Level:</strong> {{ profile.activity_level }}</p>
+                    </div>
+                    {% else %}
+                    <p>No PCOD assessment available. Please complete your health profile.</p>
+                    {% endif %}
+                </div>
+
+                <div id="periodTrack" class="section-content" style="display: none;">
+                    {% if profile %}
+                    <h3>Period Tracking</h3>
+                    <div class="period-details">
+                        <div class="period-header">
+                            <div>
+                                <p><strong>Cycle Length:</strong> {{ profile.cycle_length }} days</p>
+                                <p><strong>Period Length:</strong> {{ profile.period_length }} days</p>
+                            </div>
+                            <button class="Btn" onclick="showPeriodForm()">
+                                <div class="sign">+</div>
+                                <div class="text">Add Entry</div>
+                            </button>
+                        </div>
+
+                        <!-- Period Entry Form -->
+                        <div id="periodEntryForm" class="period-form" style="display: none;">
+                            <form action="{{ url_for('add_period') }}" method="POST">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Start Date</label>
+                                        <input type="date" name="start_date" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>End Date</label>
+                                        <input type="date" name="end_date" required>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Flow Level</label>
+                                        <select name="flow_level" required>
+                                            <option value="light">Light</option>
+                                            <option value="medium">Medium</option>
+                                            <option value="heavy">Heavy</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Symptoms</label>
+                                        <div class="symptoms-checkbox-group">
+                                            <label class="checkbox-container">
+                                                <input type="checkbox" name="symptoms" value="cramps">
+                                                <span class="checkmark"></span>
+                                                Cramps
+                                            </label>
+                                            <label class="checkbox-container">
+                                                <input type="checkbox" name="symptoms" value="headache">
+                                                <span class="checkmark"></span>
+                                                Headache
+                                            </label>
+                                            <label class="checkbox-container">
+                                                <input type="checkbox" name="symptoms" value="mood_swings">
+                                                <span class="checkmark"></span>
+                                                Mood Swings
+                                            </label>
+                                            <label class="checkbox-container">
+                                                <input type="checkbox" name="symptoms" value="fatigue">
+                                                <span class="checkmark"></span>
+                                                Fatigue
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-actions">
+                                    <button type="submit" class="submit-btn">Save Entry</button>
+                                    <button type="button" class="cancel-btn" onclick="hidePeriodForm()">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Period History Table -->
+                        <div class="period-history">
+                            <h4>Period History</h4>
+                            {% if period_entries %}
+                            <table class="period-table">
+                                <thead>
+                                    <tr>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
+                                        <th>Duration</th>
+                                        <th>Flow Level</th>
+                                        <th>Symptoms</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for entry in period_entries %}
+                                    <tr>
+                                        <td>{{ entry.start_date.strftime('%Y-%m-%d') }}</td>
+                                        <td>{{ entry.end_date.strftime('%Y-%m-%d') }}</td>
+                                        <td>{{ (entry.end_date - entry.start_date).days + 1 }} days</td>
+                                        <td>{{ entry.flow_level }}</td>
+                                        <td>{{ entry.symptoms|join('') if entry.symptoms else 'None' }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            {% else %}
+                            <p>No period entries recorded yet.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% else %}
+                    <p>No period tracking data available. Please complete your health profile.</p>
+                    {% endif %}
+                </div>
+
+                <div id="settings" class="section-content" style="display: none;">
+                    <h3>Profile Settings</h3>
+                    <div class="settings-form">
+                        <form action="{{ url_for('update_profile') }}" method="POST">
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input type="text" name="name" value="{{ current_user.name if current_user.name }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" name="email" value="{{ current_user.email }}" disabled>
+                            </div>
+                            <button type="submit">Update Profile</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showPCODReport() {
+            hideAllSections();
+            document.getElementById('pcodReport').style.display = 'block';
+        }
+
+        function showPeriodTrack() {
+            hideAllSections();
+            document.getElementById('periodTrack').style.display = 'block';
+        }
+
+        function showSettings() {
+            hideAllSections();
+            document.getElementById('settings').style.display = 'block';
+        }
+
+        function hideAllSections() {
+            const sections = document.getElementsByClassName('section-content');
+            for (let section of sections) {
+                section.style.display = 'none';
+            }
+        }
+
+        function showPeriodForm() {
+            document.getElementById('periodEntryForm').style.display = 'block';
+        }
+
+        function hidePeriodForm() {
+            document.getElementById('periodEntryForm').style.display = 'none';
+        }
+        function showPeriodForm() {
+    document.getElementById('periodEntryForm').style.display = 'block';
+}
+
+function hidePeriodForm() {
+    document.getElementById('periodEntryForm').style.display = 'none';
+}
+    </script>
+</body>
+</html>

@@ -24,7 +24,12 @@
                     <span class="seclogocolor">ealth</span>
                 </div>
                 <div class="startTracking">
-                    <p>Start Tracking</p>
+                    {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('profile') }}" class="nav-link">My Profile</a>
+                        <a href="{{ url_for('logout') }}" class="nav-link">Logout</a>
+                    {% else %}
+                        <a href="{{ url_for('login') }}" class="nav-link">Start Tracking</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
