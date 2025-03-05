@@ -8,6 +8,12 @@
 </head>
 <body>
   <div class="form-container">
+    {% if error %}
+    <div class="error-alert">
+      <span class="error-icon">⚠️</span>
+      <span class="error-message">{{ error }}</span>
+    </div>
+    {% endif %}
     <h2 class="form-title">Health Profile</h2>
     <p class="form-subtitle">Complete your personal health information to get personalized care</p>
     

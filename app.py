@@ -55,8 +55,43 @@ class HealthCalculator:
             return "7-9 hours"
         else:
             return "7-8 hours"
+    
+    @staticmethod
+    def calculate_pcod_risk(age, bmi, cycle_length, period_length):
+        """Calculate PCOD risk score based on various factors"""
+        risk_score = 0
+        
+        # BMI scoring
+        if bmi >= 30:
+            risk_score += 3
+        elif bmi >= 25:
+            risk_score += 2
+        elif bmi < 18.5:
+            risk_score += 1
+            
+        # Menstrual cycle irregularity scoring
+        if cycle_length:
+            cycle_length = int(cycle_length)
+            if cycle_length > 35 or cycle_length < 21:
+                risk_score += 3
+            elif cycle_length > 32 or cycle_length < 24:
+                risk_score += 2
+                
+        # Period length scoring
+        if period_length:
+            period_length = int(period_length)
+            if period_length > 7:
+                risk_score += 2
+            elif period_length < 2:
+                risk_score += 1
 
-
+        # Determine risk level
+        if risk_score >= 6:
+            return "High Risk"
+        elif risk_score >= 3:
+            return "Moderate Risk"
+        else:
+            return "Low Risk"
 
 @app.route('/')
 def home():
@@ -110,13 +145,23 @@ def submit():
         water_recommendation = calculator.calculate_water_recommendation(float(form_data['weight']))
         sleep_recommendation = calculator.calculate_sleep_recommendation(int(form_data['age']))
         
+        # Calculate PCOD risk
+        pcod_risk = calculator.calculate_pcod_risk(
+            age=int(form_data['age']),
+            bmi=bmi,
+            cycle_length=form_data.get('cycle_length'),
+            period_length=form_data.get('period_length')
+        )
+        
         # Add calculations to form_data
         form_data.update({
             'bmi': bmi,
             'bmi_category': bmi_category,
             'water_recommendation': water_recommendation,
-            'sleep_recommendation': sleep_recommendation
+            'sleep_recommendation': sleep_recommendation,
+            'pcod_risk': pcod_risk
         })
+        
         new_profile = HealthProfile(
             name=form_data['name'],
             email=form_data['email'],

@@ -26,10 +26,6 @@
     background-attachment: scroll;
 }
 
-body {
-    /* background-color: var(--backcolor); */
-}
-
 .logocolor {
     color: var(--primarycolor);
 }

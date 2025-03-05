@@ -35,18 +35,37 @@
             {% if profile.water_intake %}
             <p><strong>Water Intake:</strong> {{ profile.water_intake }} glasses</p>
             {% endif %}
-            <h3>Health Calculations</h3>
-            <p><strong>BMI:</strong> {{ profile.bmi }} ({{ profile.bmi_category }})</p>
-            <p><strong>Recommended Daily Water Intake:</strong> {{ profile.water_recommendation }}ml</p>
-            <p><strong>Recommended Sleep:</strong> {{ profile.sleep_recommendation }}</p>
-            
-            {% if profile.cycle_length %}
-            <h3>Menstrual Health</h3>
-            <p><strong>Cycle Length:</strong> {{ profile.cycle_length }} days</p>
-            <p><strong>Period Length:</strong> {{ profile.period_length }} days</p>
-            {% endif %}
-            
         </div>
+            <div class="form-section">
+
+                <h3>Health Calculations</h3>
+                <p><strong>BMI:</strong> {{ profile.bmi }} ({{ profile.bmi_category }})</p>
+                <p><strong>Recommended Daily Water Intake:</strong> {{ profile.water_recommendation }}ml</p>
+                <p><strong>Recommended Sleep:</strong> {{ profile.sleep_recommendation }}</p>
+                
+                {% if profile.cycle_length %}
+                <h3>Menstrual Health</h3>
+                <p><strong>Cycle Length:</strong> {{ profile.cycle_length }} days</p>
+                <p><strong>Period Length:</strong> {{ profile.period_length }} days</p>
+                {% endif %}
+            </div>
+            
+        
+        <div class="form-section">
+            <h3>Health Analysis</h3>
+            <div class="health-metric {% if profile.pcod_risk == 'High Risk' %}alert{% elif profile.pcod_risk == 'Moderate Risk' %}warning{% endif %}">
+                <h4>PCOD Risk Assessment</h4>
+                <p><strong>Risk Level:</strong> {{ profile.pcod_risk }}</p>
+                {% if profile.pcod_risk == 'High Risk' %}
+                <p class="risk-advice">Please consult a healthcare provider for a thorough evaluation.</p>
+                {% elif profile.pcod_risk == 'Moderate Risk' %}
+                <p class="risk-advice">Consider discussing your symptoms with a healthcare provider.</p>
+                {% else %}
+                <p class="risk-advice">Continue maintaining a healthy lifestyle.</p>
+                {% endif %}
+            </div>
+        </div>
+        
         {% endif %}
 
         <div class="form-actions">
