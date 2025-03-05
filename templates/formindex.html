@@ -16,20 +16,20 @@
         <h3 class="form-section-title">Personal Information</h3>
         
         <div class="form-group">
-          <input type="text" required>
+          <input type="text" name="name" required>
           <span class="bar"></span>
           <label>Full Name</label>
         </div>
         
         <div class="form-group">
-          <input type="email" required>
+          <input type="email" name="email" required>
           <span class="bar"></span>
           <label>Email</label>
         </div>
         
         <div class="slider-container">
           <label for="age-slider">Age: <span id="age-value">25</span></label>
-          <input type="range" id="age-slider" min="18" max="80" value="25">
+          <input type="range" id="age-slider" name="age" min="18" max="80" value="25">
         </div>
         
         <div class="radio-group">
@@ -53,13 +53,13 @@
         </div>
         
         <div class="form-group">
-          <input type="text" required>
+          <input type="number" name="height" step="0.01" required>
           <span class="bar"></span>
           <label>Height (cm)</label>
         </div>
         
         <div class="form-group">
-          <input type="text" required>
+          <input type="text" name="weight" required>
           <span class="bar"></span>
           <label>Weight (kg)</label>
         </div>
@@ -70,12 +70,12 @@
         
         <div class="slider-container">
           <label for="cycle-length-slider">Average Cycle Length: <span id="cycle-length-value">28</span> days</label>
-          <input type="range" id="cycle-length-slider" min="21" max="35" value="28">
+          <input type="range" id="cycle-length-slider" name="cycle_length" min="21" max="35" value="28">
         </div>
         
         <div class="slider-container">
           <label for="period-length-slider">Average Period Length: <span id="period-length-value">5</span> days</label>
-          <input type="range" id="period-length-slider" min="2" max="10" value="5">
+          <input type="range" id="period-length-slider" name="period_length" min="2" max="10" value="5">
         </div>
         
         <div class="checkbox-container">
@@ -159,7 +159,7 @@
         </div>
         
         <div class="form-group">
-          <select required>
+          <select name="sleep" required>
             <option value="" disabled selected></option>
             <option value="0-4">0-4 hours</option>
             <option value="5-6">5-6 hours</option>
@@ -171,7 +171,7 @@
         </div>
         
         <div class="form-group">
-          <select required>
+          <select name="water_intake" required>
             <option value="" disabled selected></option>
             <option value="low">Low (0-2 glasses)</option>
             <option value="moderate">Moderate (3-5 glasses)</option>
@@ -192,6 +192,7 @@
       Your health information is private and protected. We follow strict privacy guidelines.
     </div>
   </div>
-  <script src="{{ url_for('static', filename='formscript.js') }}"></script>
+  <script src="/static/formscript.js"></script>
+  <script src="/static/script.js"></script>
 </body>
 </html>

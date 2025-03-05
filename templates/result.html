@@ -10,16 +10,48 @@
     <div class="form-container">
         <h2 class="form-title">Your Health Profile</h2>
         
+        {% if profile %}
         <div class="form-section">
             <h3>Personal Information</h3>
-            <p>Name: {{ form_data.name }}</p>
-            <p>Email: {{ form_data.email }}</p>
-            <p>Age: {{ form_data.age }}</p>
-            <p>Gender: {{ form_data.gender }}</p>
-            <p>Height: {{ form_data.height }} cm</p>
+            <p><strong>Name:</strong> {{ profile.name }}</p>
+            <p><strong>Email:</strong> {{ profile.email }}</p>
+            <p><strong>Age:</strong> {{ profile.age }} years</p>
+            <p><strong>Gender:</strong> {{ profile.gender }}</p>
+            <p><strong>Height:</strong> {{ profile.height }} cm</p>
+            <p><strong>Weight:</strong> {{ profile.weight }} kg</p>
+            
+            {% if profile.cycle_length %}
+            <p><strong>Cycle Length:</strong> {{ profile.cycle_length }} days</p>
+            {% endif %}
+            
+            {% if profile.period_length %}
+            <p><strong>Period Length:</strong> {{ profile.period_length }} days</p>
+            {% endif %}
+            
+            {% if profile.sleep %}
+            <p><strong>Sleep:</strong> {{ profile.sleep }} hours</p>
+            {% endif %}
+            
+            {% if profile.water_intake %}
+            <p><strong>Water Intake:</strong> {{ profile.water_intake }} glasses</p>
+            {% endif %}
+            <h3>Health Calculations</h3>
+            <p><strong>BMI:</strong> {{ profile.bmi }} ({{ profile.bmi_category }})</p>
+            <p><strong>Recommended Daily Water Intake:</strong> {{ profile.water_recommendation }}ml</p>
+            <p><strong>Recommended Sleep:</strong> {{ profile.sleep_recommendation }}</p>
+            
+            {% if profile.cycle_length %}
+            <h3>Menstrual Health</h3>
+            <p><strong>Cycle Length:</strong> {{ profile.cycle_length }} days</p>
+            <p><strong>Period Length:</strong> {{ profile.period_length }} days</p>
+            {% endif %}
+            
         </div>
+        {% endif %}
 
-        <a href="/" class="btn">Back to Form</a>
+        <div class="form-actions">
+            <a href="{{ url_for('home') }}" class="btn">Back to Form</a>
+        </div>
     </div>
 </body>
 </html>
