@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Profile Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='formstyle.css') }}">
+</head>
+<body>
+    <div class="form-container">
+        <h2 class="form-title">Your Health Profile</h2>
+        
+        <div class="form-section">
+            <h3>Personal Information</h3>
+            <p>Name: {{ form_data.name }}</p>
+            <p>Email: {{ form_data.email }}</p>
+            <p>Age: {{ form_data.age }}</p>
+            <p>Gender: {{ form_data.gender }}</p>
+            <p>Height: {{ form_data.height }} cm</p>
+        </div>
+
+        <a href="/" class="btn">Back to Form</a>
+    </div>
+</body>
+</html>

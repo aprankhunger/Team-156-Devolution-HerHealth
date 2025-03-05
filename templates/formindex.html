@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Health Profile Form</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='formstyle.css') }}">
+</head>
+<body>
+  <div class="form-container">
+    <h2 class="form-title">Health Profile</h2>
+    <p class="form-subtitle">Complete your personal health information to get personalized care</p>
+    
+    <form action="{{ url_for('submit') }}" method="post">
+      <div class="form-section">
+        <h3 class="form-section-title">Personal Information</h3>
+        
+        <div class="form-group">
+          <input type="text" required>
+          <span class="bar"></span>
+          <label>Full Name</label>
+        </div>
+        
+        <div class="form-group">
+          <input type="email" required>
+          <span class="bar"></span>
+          <label>Email</label>
+        </div>
+        
+        <div class="slider-container">
+          <label for="age-slider">Age: <span id="age-value">25</span></label>
+          <input type="range" id="age-slider" min="18" max="80" value="25">
+        </div>
+        
+        <div class="radio-group">
+          <label>Gender</label>
+          <label class="radio-button">
+            <input type="radio" name="gender" value="female" checked>
+            <span>Female</span>
+          </label>
+          <label class="radio-button">
+            <input type="radio" name="gender" value="male">
+            <span>Male</span>
+          </label>
+          <label class="radio-button">
+            <input type="radio" name="gender" value="non-binary">
+            <span>Non-binary</span>
+          </label>
+          <label class="radio-button">
+            <input type="radio" name="gender" value="other">
+            <span>Other</span>
+          </label>
+        </div>
+        
+        <div class="form-group">
+          <input type="text" required>
+          <span class="bar"></span>
+          <label>Height (cm)</label>
+        </div>
+        
+        <div class="form-group">
+          <input type="text" required>
+          <span class="bar"></span>
+          <label>Weight (kg)</label>
+        </div>
+      </div>
+      
+      <div class="form-section">
+        <h3 class="form-section-title">Menstrual Health</h3>
+        
+        <div class="slider-container">
+          <label for="cycle-length-slider">Average Cycle Length: <span id="cycle-length-value">28</span> days</label>
+          <input type="range" id="cycle-length-slider" min="21" max="35" value="28">
+        </div>
+        
+        <div class="slider-container">
+          <label for="period-length-slider">Average Period Length: <span id="period-length-value">5</span> days</label>
+          <input type="range" id="period-length-slider" min="2" max="10" value="5">
+        </div>
+        
+        <div class="checkbox-container">
+          <div class="checkbox-title">Common Symptoms</div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="cramps">
+            <label for="cramps">Cramps</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="headache">
+            <label for="headache">Headache</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="fatigue">
+            <label for="fatigue">Fatigue</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="bloating">
+            <label for="bloating">Bloating</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="mood-swings">
+            <label for="mood-swings">Mood Swings</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="other">
+            <label for="other">Other</label>
+          </div>
+        </div>
+      </div>
+      
+      <div class="form-section">
+        <h3 class="form-section-title">General Health</h3>
+        
+        <div class="radio-group">
+          <label>Activity Level</label>
+          <label class="radio-button">
+            <input type="radio" name="activity" value="sedentary">
+            <span>Sedentary</span>
+          </label>
+          <label class="radio-button">
+            <input type="radio" name="activity" value="light" checked>
+            <span>Light</span>
+          </label>
+          <label class="radio-button">
+            <input type="radio" name="activity" value="moderate">
+            <span>Moderate</span>
+          </label>
+          <label class="radio-button">
+            <input type="radio" name="activity" value="active">
+            <span>Active</span>
+          </label>
+        </div>
+        
+        <div class="checkbox-container">
+          <div class="checkbox-title">Pre-existing Conditions</div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="diabetes">
+            <label for="diabetes">Diabetes</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="hypertension">
+            <label for="hypertension">Hypertension</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="thyroid">
+            <label for="thyroid">Thyroid</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="pcos">
+            <label for="pcos">PCOS</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="endometriosis">
+            <label for="endometriosis">Endometriosis</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="none">
+            <label for="none">None</label>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <select required>
+            <option value="" disabled selected></option>
+            <option value="0-4">0-4 hours</option>
+            <option value="5-6">5-6 hours</option>
+            <option value="7-8">7-8 hours</option>
+            <option value="9+">9+ hours</option>
+          </select>
+          <span class="bar"></span>
+          <label>Average Sleep</label>
+        </div>
+        
+        <div class="form-group">
+          <select required>
+            <option value="" disabled selected></option>
+            <option value="low">Low (0-2 glasses)</option>
+            <option value="moderate">Moderate (3-5 glasses)</option>
+            <option value="high">High (6-8 glasses)</option>
+            <option value="very-high">Very High (8+ glasses)</option>
+          </select>
+          <span class="bar"></span>
+          <label>Daily Water Intake</label>
+        </div>
+      </div>
+      
+      <button type="submit">
+        <span>SAVE PROFILE</span>
+      </button>
+    </form>
+    
+    <div class="privacy-note">
+      Your health information is private and protected. We follow strict privacy guidelines.
+    </div>
+  </div>
+  <script src="{{ url_for('static', filename='formscript.js') }}"></script>
+</body>
+</html>
