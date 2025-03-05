@@ -60,6 +60,10 @@ class HealthCalculator:
 
 @app.route('/')
 def home():
+    return render_template('index.html')
+
+@app.route('/form')
+def form():
     return render_template('formindex.html')
 
 @app.route('/submit', methods=['POST'])
