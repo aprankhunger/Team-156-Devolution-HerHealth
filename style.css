@@ -19,7 +19,7 @@
     min-height: 100vh; /* Changed from height to min-height */
     width: 100%;
     background: linear-gradient(to bottom, transparent 95%, rgba(0, 0, 0, 0.5) 100%);
-    background-image: url('./Untitled design (1).png');
+    background-image: url('./HomeBG.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
