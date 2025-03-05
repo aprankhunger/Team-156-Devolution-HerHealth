@@ -1,0 +1,245 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+    width: 0px;
+}
+
+:root {
+    --primarycolor: #E91E63;
+    --backcolor: #FCE4EC;
+    --textcolor: #333333;
+}
+
+body {
+    background: var(--backcolor);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+}
+
+.bubble-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.bubble {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.2;
+    animation: floatRandom 20s linear infinite;
+}
+
+@keyframes floatRandom {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    33% {
+        transform: translate(var(--moveX), var(--moveY)) rotate(120deg);
+    }
+    66% {
+        transform: translate(calc(var(--moveX) * -0.5), calc(var(--moveY) * 0.5)) rotate(240deg);
+    }
+    100% {
+        transform: translate(0, 0) rotate(360deg);
+    }
+}
+
+.logo {
+    display: flex;
+    gap: 2px;
+    font-weight: bold;
+    font-size: 39px;
+    font-family: "Poetsen One";
+}
+
+.logocolor {
+    color: var(--primarycolor);
+}
+
+.nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 95px;
+    width: 97%;
+    padding: 10px 20px;
+    margin: 0px 18px;
+    border-radius: 100px;
+}
+
+.logo {
+    display: flex;
+    gap: 2px;
+    font-weight: bold;
+    font-size: 39px;
+    font-family: "Poetsen One";
+}
+
+.username{
+    font-size: 30px;
+    margin: 15px 38px;
+    font-family: 'Lora';
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.Hey{
+    font-size: 30px;
+}
+
+.User{
+    font-size: 55px;
+    padding-bottom: 5px;
+}
+.otherdata{
+    display: flex;
+    align-items: center;
+    gap: 250px;
+    padding-left: 40px;
+    padding-top: 17px;
+    font-size: 25px;
+}
+
+.grid{
+    height: auto;
+    min-height: 60vh;
+    width: 96%;
+    margin: 20px auto;
+    display: grid;
+    grid-template-areas: "a c d "
+                         "b b b";
+    gap: 1rem;
+    padding: 1.5rem;
+    
+    .item1{
+        grid-area: a;
+    }
+    .item2{
+        grid-area: c;
+    }
+    .item3{
+        grid-area: d;
+    }
+    .item4{
+        grid-area: b;
+    }
+
+    .item1,.item2,.item3{
+        width: 100%;
+        height: 60px;
+        font-size: 25px;
+        border: 2px solid black;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+.item1, .item2, .item3 {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    margin: 10px;
+    padding: 15px;
+    height: auto;
+    min-height: 60px;
+}
+
+.item1:hover, .item2:hover, .item3:hover {
+    background: var(--primarycolor);
+    color: white;
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(233, 30, 99, 0.3);
+}
+
+.item4 {
+    padding: 20px;
+    line-height: 1.6;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 15px 10px;
+    height: auto;
+    min-height: 200px;
+}
+
+.item4 h2 {
+    color: var(--primarycolor);
+    margin-bottom: 15px;
+}
+
+.item4 ul {
+    margin-left: 20px;
+}
+
+.item4 li {
+    margin: 10px 0;
+}
+
+.main {
+    position: relative;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    padding: 1.5rem;
+    margin: 1rem auto;
+    width: 95%;
+    max-width: 1200px;
+}
+
+@media screen and (max-width: 768px) {
+    .grid {
+        grid-template-areas: 
+            "a"
+            "c"
+            "d"
+            "b";
+        width: 90%;
+    }
+
+    .otherdata {
+        flex-direction: column;
+        gap: 20px;
+        padding-left: 20px;
+    }
+
+    .username {
+        margin: 15px 20px;
+    }
+
+    .User {
+        font-size: 40px;
+    }
+
+    .nav1 {
+        width: 100%;
+        margin: 0;
+        padding: 10px;
+    }
+
+    .logo {
+        font-size: 30px;
+    }
+}
