@@ -60,28 +60,72 @@
     font-family: "Poetsen One";
 }
 
-.startTracking {
-    color: var(--textcolor);
-    height: 40px;
-    width: 150px;
-    display: flex;
-    font-family: "Lora";
-    align-items: center;
-    justify-content: center;
-    border: 2px solid var(--primarycolor);
-    border-radius: 60px;
-    transition: all 0.5s ease-in-out;
-}
-
-.startTracking p {
-    margin: 0;
-    cursor: pointer;
-    font-size: 20px;
-}
-
-.startTracking:hover {
-    background-color: var(--primarycolor);
+.c-button {
     color: white;
+    background-color: var(--primarycolor);
+    font-weight: 700;
+    font-size: 16px;
+    text-decoration: none;
+    padding: 0.9em 1.6em;
+    cursor: pointer;
+    font-family: "Lora";
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    z-index: 1;
+}
+
+.c-button--gooey {
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border: 4px solid white;
+    border-radius: 15px;
+    position: relative;
+    transition: all 700ms ease;
+}
+
+.c-button--gooey .c-button__blobs {
+    height: 100%;
+    filter: url(#goo);
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: -3px;
+    right: -1px;
+    z-index: -1;
+}
+
+.c-button--gooey .c-button__blobs div {
+    background-color: white;
+    width: 34%;
+    height: 100%;
+    border-radius: 100%;
+    position: absolute;
+    transform: scale(1.4) translateY(125%) translateZ(0);
+    transition: all 700ms ease;
+}
+
+.c-button--gooey .c-button__blobs div:nth-child(1) {
+    left: -5%;
+}
+
+.c-button--gooey .c-button__blobs div:nth-child(2) {
+    left: 30%;
+    transition-delay: 60ms;
+}
+
+.c-button--gooey .c-button__blobs div:nth-child(3) {
+    left: 66%;
+    transition-delay: 25ms;
+}
+
+.c-button--gooey:hover {
+    color: var(--primarycolor);
+}
+
+.c-button--gooey:hover .c-button__blobs div {
+    transform: scale(1.4) translateY(0) translateZ(0);
 }
 
 .maintext {
@@ -102,37 +146,6 @@
     font-size: 20px;
     color: var(--textcolor);
 }
-
-/* .pcodbutton {
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    margin-top: 50px;
-    padding-left: 40px;
-    transition: all 0.5s ease-in-out;
-}
-
-.pcodbutton1 {
-    border: 2px solid var(--primarycolor);
-    height: 50px;
-    width: 200px;
-    font-size: 20px;
-    display: flex;
-    font-family: "Lora";
-    color: var(--textcolor);
-    justify-content: center;
-    align-items: center;
-    border-radius: 30px;
-    transition: all 0.5s ease-in-out;
-}
-
-.pcodbutton1:hover {
-    background-color: var(--primarycolor);
-    color: white;
-    cursor: pointer;
-} */
-
-
 
 button {
     position: relative;
@@ -229,6 +242,36 @@ button:hover .button-text {
     color: var(--primarycolor);
 }
 
+.whatpcod {
+    height: 50vh;
+    width: 94%;
+    margin: 100px auto;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    font-family: "Poppins";
+    color: var(--primarycolor);
+}
+
+.pcodimg {
+    height: 400px;
+    width: 400px;
+}
+
+.pcodtext>p {
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+.pcodtext {
+    margin-top: 15px;
+    height: 50vh;
+    width: 60%;
+    font-size: 40px;
+    text-align: center;
+
+}
+
 .blog {
     height: 365px;
     width: 100%;
@@ -240,11 +283,10 @@ button:hover .button-text {
 
 .chooseus>h1 {
     font-size: 50px;
-    margin-top: 90px;
+    margin-top: 50px;
     text-align: center;
     font-family: "Poppins";
     color: var(--primarycolor);
-    /* color: var(--primarycolor); */
 }
 
 .blog .boxes {
@@ -576,4 +618,148 @@ button:hover .button-text {
     margin: 0px 10px;
     text-align: center;
     color: var(--textcolor);
+}
+
+.wrapper {
+    flex: 1;
+}
+
+
+.exerciseheading>h1{
+    font-size: 50px;
+    text-align: center;
+    color: var(--primarycolor);
+    margin-left: 40px;
+    font-family: "Poppins";
+}
+
+.exercisecontent{
+    height: 80vh;
+    width: 93%;
+    margin: 0 auto; 
+    display: flex;
+    justify-content: start;
+    align-items: center; 
+    position: relative;
+    color: var(--primarycolor);
+
+
+}
+
+.exerciseimg >img{
+    height: 500px;
+    width: 750px;
+    margin-left: 20px;
+    margin-top: -70px;
+}
+
+.exerciseimg{
+    height: 400px;
+    width: 400px;
+}
+
+.exerciseblog{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.exerciseblog1,.exerciseblog2,.exerciseblog3{
+    height: 150px;
+    width: 60vw;
+    margin-left: 75px;
+    border-radius: 25px;
+    font-size: 18px;
+
+}
+
+footer {
+    background-color: var(--backcolor);
+    color: var(--textcolor);
+    padding: 40px 60px;
+    width: 100%;
+    margin-top: 100px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    position: relative;
+    box-shadow: 0 -5px 15px rgba(233, 30, 99, 0.1);
+}
+
+.footer-left {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.footer-right {
+    flex: 1;
+    font-family: "Poetsen One";
+    font-size: 32px;
+    text-align: right;
+}
+
+.footer-right .logocolor {
+    color: var(--primarycolor);
+}
+
+.footer-sections {
+    display: flex;
+    gap: 60px;
+}
+
+.footer-section {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.footer-section-title {
+    color: var(--primarycolor);
+    font-weight: 600;
+    font-size: 16px;
+    font-family: 'Poppins';
+}
+
+.footer-section-content {
+    font-size: 14px;
+    line-height: 1.6;
+    font-family: 'Poppins';
+}
+
+.footer-bottom {
+    width: 100%;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(233, 30, 99, 0.2);
+    font-size: 12px;
+    text-align: center;
+}
+
+.credits {
+    font-size: 12px;
+    color: #666;
+}
+
+@media screen and (max-width: 768px) {
+    footer {
+        padding: 30px 20px;
+    }
+
+    .footer-sections {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .footer-right {
+        width: 100%;
+        text-align: left;
+        margin-top: 30px;
+    }
+}
+
+.leftfooter{
+margin-left: 90%;
+/* margin-bottom: 500px; */
 }
