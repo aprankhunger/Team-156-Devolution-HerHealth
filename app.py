@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, send_file
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate  # Add this line
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
@@ -6,7 +6,13 @@ from datetime import datetime
 from functools import wraps
 from firebase_config import auth
 from firebase_admin import auth as admin_auth
+import pdfkit
+from io import BytesIO
+import os
+from pathlib import Path
 
+KHTMLTOPDF_PATH = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
+config = pdfkit.configuration(wkhtmltopdf=KHTMLTOPDF_PATH)
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///health_profiles.db'
@@ -376,6 +382,61 @@ def add_period():
         return redirect(url_for('profile'))
     except Exception as e:
         print(f"Error adding period entry: {str(e)}")
+        return redirect(url_for('profile'))
+
+# Add these imports at the top
+
+@app.route('/download-pdf')
+@login_required
+def download_pdf():
+    try:
+        # Get the user's profile
+        profile = HealthProfile.query.filter_by(user_id=current_user.firebase_uid).first()
+        
+        # Get the absolute path to your templates directory
+        template_dir = os.path.join(Path(__file__).parent, 'templates')
+        static_dir = os.path.join(Path(__file__).parent, 'static')
+        
+        # Render the template with the profile data
+        html = render_template('result.html', profile=profile)
+        
+        # Configure pdfkit options
+        options = {
+            'page-size': 'A4',
+            'margin-top': '0.75in',
+            'margin-right': '0.75in',
+            'margin-bottom': '0.75in',
+            'margin-left': '0.75in',
+            'encoding': "UTF-8",
+            'enable-local-file-access': None,
+            'custom-header': [('Accept-Encoding', 'gzip')],
+            'no-outline': None,
+            'quiet': None
+        }
+        
+        # Create temporary HTML file
+        temp_html = os.path.join(template_dir, 'temp_report.html')
+        with open(temp_html, 'w', encoding='utf-8') as f:
+            f.write(html)
+        
+        # Create PDF using the configuration
+        pdf = pdfkit.from_file(temp_html, False, options=options, configuration=config)
+        
+        # Clean up temporary file
+        os.remove(temp_html)
+        
+        # Create response
+        buffer = BytesIO(pdf)
+        buffer.seek(0)
+        
+        return send_file(
+            buffer,
+            download_name=f'health_report_{current_user.name}.pdf',
+            mimetype='application/pdf'
+        )
+    
+    except Exception as e:
+        print(f"PDF generation error: {str(e)}")
         return redirect(url_for('profile'))
 
 if __name__ == '__main__':
