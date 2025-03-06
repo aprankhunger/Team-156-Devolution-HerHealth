@@ -10,8 +10,18 @@ import pdfkit
 from io import BytesIO
 import os
 from pathlib import Path
+import platform
 
-KHTMLTOPDF_PATH = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
+# For Windows development
+WINDOWS_PATH = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
+# For Linux/Unix deployment
+LINUX_PATH = '/usr/bin/wkhtmltopdf'
+
+# Detect the appropriate path based on OS 
+if platform.system() == 'Windows':
+    KHTMLTOPDF_PATH = WINDOWS_PATH
+else:
+    KHTMLTOPDF_PATH = LINUX_PATH
 config = pdfkit.configuration(wkhtmltopdf=KHTMLTOPDF_PATH)
 app = Flask(__name__)
 
