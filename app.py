@@ -115,16 +115,16 @@ class HealthCalculator:
                 risk_score += 1
             
             # Menstrual cycle scoring
-            if cycle_length and cycle_length.isdigit():
-                cycle_length = int(cycle_length)
+            if cycle_length:
+                cycle_length = int(cycle_length) if isinstance(cycle_length, str) else cycle_length
                 if cycle_length > 35 or cycle_length < 21:
                     risk_score += 3
                 elif cycle_length > 32 or cycle_length < 24:
                     risk_score += 2
             
             # Period length scoring
-            if period_length and period_length.isdigit():
-                period_length = int(period_length)
+            if period_length:
+                period_length = int(period_length) if isinstance(period_length, str) else period_length
                 if period_length > 7:
                     risk_score += 2
                 elif period_length < 2:
@@ -326,9 +326,11 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
+
 @app.route('/profile')
 @login_required
 def profile():
+    
     if not current_user.is_authenticated:
         return redirect(url_for('login'))
     
@@ -344,6 +346,18 @@ def profile():
     period_entries = PeriodEntry.query.filter_by(
         user_id=current_user.firebase_uid
     ).order_by(PeriodEntry.start_date.desc()).all()
+    
+    if user_profile:
+        calculator = HealthCalculator()
+        user_profile.pcod_risk = calculator.calculate_pcod_risk(
+            age=user_profile.age,
+            bmi=calculator.calculate_bmi(user_profile.weight, user_profile.height),
+            cycle_length=user_profile.cycle_length,
+            period_length=user_profile.period_length,
+            symptoms=user_profile.symptoms.split(',') if user_profile.symptoms else [],
+            conditions=user_profile.conditions.split(',') if user_profile.conditions else [],
+            activity_level=user_profile.activity_level
+        )
     
     return render_template('ProfilePage.html', 
                          profile=user_profile, 
@@ -443,3 +457,4 @@ if __name__ == '__main__':
     with app.app_context():
         db.create_all()  # Create database tables
     app.run(debug=True)
+
