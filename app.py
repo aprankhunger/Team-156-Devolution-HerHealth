@@ -163,19 +163,12 @@ class HealthCalculator:
             print(f"PCOD Risk Calculation Error: {str(e)}")
             return "Unable to calculate risk"
 
-def login_required(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if 'user' not in session:
-            return redirect(url_for('login'))
-        return f(*args, **kwargs)
-    return decorated_function
-
 @app.route('/')
 def home():
     return render_template('index.html')
 
 @app.route('/form')
+@login_required  # Use Flask-Login's decorator
 def form():
     return render_template('formindex.html')
 
