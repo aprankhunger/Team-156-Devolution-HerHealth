@@ -10,9 +10,17 @@ import pdfkit
 from io import BytesIO
 import os
 from pathlib import Path
+from werkzeug.middleware.proxy_fix import ProxyFix
 
-KHTMLTOPDF_PATH = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
-config = pdfkit.configuration(wkhtmltopdf=KHTMLTOPDF_PATH)
+# Modify the PDF configuration
+if os.environ.get('RENDER'):
+    # Use system-installed wkhtmltopdf on Render
+    config = pdfkit.configuration()
+else:
+    # Use local wkhtmltopdf path for development
+    KHTMLTOPDF_PATH = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
+    config = pdfkit.configuration(wkhtmltopdf=KHTMLTOPDF_PATH)
+
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///health_profiles.db'
@@ -20,6 +28,9 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'your-secret-key-here'  # Add this after app initialization
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)  # Add this line
+
+# Add after app initialization
+app.wsgi_app = ProxyFix(app.wsgi_app)
 
 # Initialize Flask-Login
 login_manager = LoginManager()
@@ -446,8 +457,9 @@ def download_pdf():
         print(f"PDF generation error: {str(e)}")
         return redirect(url_for('profile'))
 
+# Modify the run section at the bottom
 if __name__ == '__main__':
     with app.app_context():
-        db.create_all()  # Create database tables
-    app.run(debug=True)
+        db.create_all()
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
 
